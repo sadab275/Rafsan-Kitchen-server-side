@@ -37,7 +37,12 @@ async function run() {
             const result = await serviceCollection.insertOne(service);
             res.send(result);
         });
-
+        // app.get('/serviceslimit', async (req, res) => {
+        //     const query = {};
+        //     const cursor = limitserviceCollection.find(query);
+        //     const serviceslimit = await cursor.limit(3).toArray();
+        //     res.send(serviceslimit);
+        // });
 
         app.get('/servicedetails/:id', async (req, res) => {
 
