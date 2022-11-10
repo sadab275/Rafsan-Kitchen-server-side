@@ -22,6 +22,8 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         const serviceCollection = client.db('rafsanKitchen').collection('services');
+        // const limitserviceCollection = client.db('rafsanKitchen').collection('serviceslimit');
+
         const reviewCollection = client.db('rafsanKitchen').collection('reviews');
 
         app.get('/services', async (req, res) => {
@@ -30,6 +32,17 @@ async function run() {
             const services = await cursor.toArray();
             res.send(services);
         });
+        app.post('/services', async (req, res) => {
+            const service = req.body;
+            const result = await serviceCollection.insertOne(service);
+            res.send(result);
+        });
+        // app.get('/serviceslimit', async (req, res) => {
+        //     const query = {};
+        //     const cursor = limitserviceCollection.find(query);
+        //     const serviceslimit = await cursor.limit(3).toArray();
+        //     res.send(serviceslimit);
+        // });
 
         app.get('/servicedetails/:id', async (req, res) => {
 
@@ -38,6 +51,7 @@ async function run() {
             const service = await serviceCollection.findOne(query);
             res.send(service);
         });
+
 
         //review api
 
@@ -71,6 +85,13 @@ async function run() {
 
         app.patch('/reviews/:id', async (req, res) => {
             const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const updatedDoc = {
+                $set: {
+                    status: ''
+                }
+            }
+
         })
 
         app.delete('/reviews/:id', async (req, res) => {
